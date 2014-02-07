@@ -28,6 +28,8 @@ return array(
          'driver'         => 'Pdo',
          //'dsn'            => 'mysql:dbname=zf2tutorial;host=localhost',
          'dsn'            => $dsn,
+         'username' => get_cfg_var('zend_developer_cloud.db.username'),
+         'password' => get_cfg_var('zend_developer_cloud.db.password'),
          'driver_options' => array(
              PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
          ),
