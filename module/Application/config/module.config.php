@@ -95,7 +95,7 @@ return array(
              'label' => 'Home',
              'route' => 'home',
          ),
-         /*array(
+         array(
              'label' => 'Album',
              'route' => 'album',
              'pages' => array(
@@ -115,7 +115,7 @@ return array(
                      'action' => 'delete',
                  ),
              ),
-         ),*/
+         ),
      ),
 	),	
 );
