@@ -226,7 +226,7 @@ class ModuleAutoloader implements SplAutoloader
         $file = new SplFileInfo($dirPath . '/Module.php');
         if ($file->isReadable() && $file->isFile()) {
             // Found directory with Module.php in it
-            print_r($file->getRealPath()); exit;
+            print_r($file->getRealPath());
             require_once $file->getRealPath();
             if (class_exists($class)) {
                 $this->moduleClassMap[$class] = $file->getRealPath();
