@@ -7,7 +7,7 @@ return array(
 		//'ZfcBase',
 		//'ZfcUser',
 		//'ZfcAdmin',
-		'Auth',
+		//'Auth',
 		//'MarAcl',
     ),
 
