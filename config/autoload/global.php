@@ -11,6 +11,59 @@
  * file.
  */
 
-return array(
-    // ...
+$dsn = sprintf(
+    'mysql:dbname=%s;host=%s',
+    get_cfg_var('zend_developer_cloud.db.name'),
+    get_cfg_var('zend_developer_cloud.db.host')
 );
+
+/*$db = new PDO(
+                $dsn,
+                get_cfg_var('zend_developer_cloud.db.username'),
+                get_cfg_var('zend_developer_cloud.db.password')
+             );*/
+
+return array(
+     'db' => array(
+         'driver'         => 'Pdo',
+         //'dsn'            => 'mysql:dbname=zf2tutorial;host=localhost',
+         'dsn'            => $dsn,
+         'driver_options' => array(
+             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+         ),
+     ),
+	 
+	 /*'db' => array(
+         'driver'         => 'Pdo',
+         'dsn'            => 'pgsql:host=HOSTIP;port=PORTNUMBER;dbname=DATABASENAME;',
+         'driver_options' => array(
+             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+         ),
+     ),*/
+	 'twitter' => array(
+            'consumerKey' => 'jMspQRu5FMjf99aoDzIe8w',
+            'consumerSecret' => 'oSJPP0VlN91Fv2KudPOAqcICm0GCeqSNUKy2v13kR4',
+            'callbackUrl' => 'http://zendsite.lcl/login/twittercallback',
+            'siteUrl' => 'http://twitter.com/oauth',
+            'requestTokenUrl' => 'https://api.twitter.com/oauth/request_token',
+            'accessTokenUrl'  => 'https://api.twitter.com/oauth/access_token',
+            'userAuthorizationUrl' => 'https://api.twitter.com/oauth/authenticate',
+//            'userAuthorizationUrl' => 'https://api.twitter.com/oauth/authorize'
+        ),
+	 'google' => array(
+		"approval_prompt" => "force",
+            "client_id" => "267794622312.apps.googleusercontent.com",
+            "client_secret" => "qIWt5DIQ1ynQTiHRacuHqSfU",
+            "redirect_uri" => 'http://zendsite.lcl/login/googlecallback',
+            "scope" => array(
+                "https://www.googleapis.com/auth/userinfo.email",
+                "https://www.googleapis.com/auth/userinfo.profile",
+            )
+	 ),
+     'service_manager' => array(
+         'factories' => array(
+             'Zend\Db\Adapter\Adapter'
+                     => 'Zend\Db\Adapter\AdapterServiceFactory',			 
+         ),
+     ),
+ );
