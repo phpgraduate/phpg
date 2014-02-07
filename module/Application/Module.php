@@ -22,6 +22,7 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        
 		//$eventManager->attach('route', array($this, 'checkAcl'));
 		
 		//$e->getApplication()->getEventManager()->attach('route', array($this, 'checkAcl'));		
@@ -31,7 +32,7 @@ class Module
         $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'authPreDispatch'), 1);*/
     }
 
-	public function initAcl(MvcEvent $e) {
+	/*public function initAcl(MvcEvent $e) {
  
 		$acl = new \Zend\Permissions\Acl\Acl();
 		$roles = include __DIR__ . '/config/acl.config.php';
@@ -92,7 +93,7 @@ class Module
 			$response->sendHeaders();
 			$e->stopPropagation();
 		}
-	}
+	}*/
 	
     /**
      * Authenticate user or redirect to log in
