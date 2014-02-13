@@ -80,8 +80,8 @@ class AclListener implements  ListenerAggregateInterface
 		$role = new AppAclRole();
         
         $userRole = $configAppAcl['default_role'];
-        if ($authService->hasIdentity()) { 			
-			$identity = $authService->getIdentity();
+        if ($auth->hasIdentity()) { 			
+			$identity = $auth->getIdentity();
 			$userRole = ($identity['is_admin']) ? 'admin' : 'member';
 		}
 		
