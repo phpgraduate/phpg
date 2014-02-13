@@ -76,14 +76,17 @@ class AclListener implements  ListenerAggregateInterface
 		// Role
 		//$auth = $sm->get('appacl_auth_service');
 		$auth = new AuthenticationService(new SessionStorage('auth'));
-		//$userRole = ($authService->getIdentity()['is_admin']) ? 'admin' : 'member';
 		
 		$role = new AppAclRole();
-		$role->setName($auth->hasIdentity() ?
-			($auth->getIdentity()['is_admin']) ? 'admin' : 'member' :
-				$configAppAcl['default_role']
-		);
-//print_r($role); print_r($resource); 
+        
+        $userRole = $configAppAcl['default_role'];
+        if ($authService->hasIdentity()) { 			
+			$identity = $authService->getIdentity();
+			$userRole = ($identity['is_admin']) ? 'admin' : 'member';
+		}
+		
+		$role->setName($userRole);
+
 		// Query ACL
 		$result = $appAcl->isAllowed($role, $resource, $e->getRequest()->getMethod());
 

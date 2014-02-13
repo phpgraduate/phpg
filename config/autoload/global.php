@@ -11,21 +11,6 @@
  * file.
  */
 
-$dsn = sprintf(
-    'mysql:dbname=%s;host=%s',
-    get_cfg_var('zend_developer_cloud.db.name'),
-    get_cfg_var('zend_developer_cloud.db.host')
-);
-
-print_r($dsn);
-print_r(get_cfg_var('zend_developer_cloud.db.username'));
-print_r(get_cfg_var('zend_developer_cloud.db.password'));
-/*$db = new PDO(
-                $dsn,
-                get_cfg_var('zend_developer_cloud.db.username'),
-                get_cfg_var('zend_developer_cloud.db.password')
-             );*/
-
 return array(
      'db' => array(
          'driver'         => 'Pdo',
