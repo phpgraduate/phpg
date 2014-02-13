@@ -1,8 +1,8 @@
 <?php
 // To use this files:
-// Copy it to path APPLICATION/config/autoload/maracl.global.php
+// Copy it to path APPLICATION/config/autoload/appacl.global.php
 return array(
-	'MarAcl' => array(
+	'AppAcl' => array(
 		// Holds the full qualified class name.
 		// Must implement AuthenticationService class.
 		// By default "Zend\Authentication\AuthenticationService"

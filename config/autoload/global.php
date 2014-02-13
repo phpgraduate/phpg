@@ -11,6 +11,12 @@
  * file.
  */
 
+$dsn = sprintf(
+     'mysql:dbname=%s;host=%s',
+     get_cfg_var('zend_developer_cloud.db.name'),
+     get_cfg_var('zend_developer_cloud.db.host')
+ );
+ 
 return array(
      'db' => array(
          'driver'         => 'Pdo',
