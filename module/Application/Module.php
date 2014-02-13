@@ -63,7 +63,8 @@ class Module
 		
 		$authService = new AuthenticationService(new SessionStorage('auth'));
 		if ($authService->hasIdentity()) { 			
-			$userRole = ($authService->getIdentity()['is_admin']) ? 'admin' : 'member';
+			$identity = $authService->getIdentity();
+			$userRole = ($identity['is_admin']) ? 'admin' : 'member';
 		}
 		//print_r($userRole); exit;
 		if(!$e -> getViewModel() -> acl ->hasResource($route)){
