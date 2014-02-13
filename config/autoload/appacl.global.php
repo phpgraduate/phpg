@@ -43,15 +43,15 @@ return array(
 			'resources'	=> array(
 				array(
 					'controller' => 'application\controller\index',
-					'actions' 	 => array('index'),
+					'actions' 	 => array('index', 'other'),
+				),
+				array(
+					'controller' => 'auth\controller\user',
+					'actions' 	 => array('signup', 'login', 'logout', 'twitter', 'google', 'twitterCallback', 'googleCallback',),
 				),
 				array(
 					'controller' => 'album\controller\album',
-					'actions' 	 => array('index'),
-				),
-				array(
-					'controller' => 'auth\controller\login',
-					'actions' 	 => array('login','logout',),
+					'actions' 	 => array('index', 'add', 'edit', 'delete'),
 				),
 				// ...
 			),
