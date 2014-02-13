@@ -17,7 +17,7 @@ use Zend\Authentication\AuthenticationService,
 class Module
 {
     public function onBootstrap(MvcEvent $e)
-    {	print_r(get_cfg_var('zend_developer_cloud.db.password')); exit;
+    {	
 		$e->getApplication()->getServiceManager()->get('translator');
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();

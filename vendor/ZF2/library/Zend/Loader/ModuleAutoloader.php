@@ -226,7 +226,6 @@ class ModuleAutoloader implements SplAutoloader
         $file = new SplFileInfo($dirPath . '/Module.php');
         if ($file->isReadable() && $file->isFile()) {
             // Found directory with Module.php in it
-            print_r(get_cfg_var('zend_developer_cloud.db.password')); exit;
             require_once $file->getRealPath();
             if (class_exists($class)) {
                 $this->moduleClassMap[$class] = $file->getRealPath();
