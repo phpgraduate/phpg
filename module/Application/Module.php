@@ -23,12 +23,7 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 		
-		$eventManager->attach('route', array($this, 'checkAcl'));		
-		
-        /*$eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'authPreDispatch'), 1);*/	
+		$eventManager->attach('route', array($this, 'checkAcl'));
     }
 	
 	public function initAcl(MvcEvent $e) {
@@ -54,10 +49,7 @@ class Module
 				$acl -> allow($role, $resource);
 			}
 		}
-		//testing
-		//var_dump($acl->isAllowed('admin','home'));
-		//true
-	 
+		
 		//setting to view
 		$e -> getViewModel() -> acl = $acl;
 	 
@@ -93,34 +85,6 @@ class Module
 			$e->stopPropagation();
 		}
 	}
-	
-    /**
-     * Authenticate user or redirect to log in
-     */
-    /*public function authPreDispatch($event) {
-
-		$authService = new AuthenticationService(new SessionStorage('auth'));		
-		$routeMatch = $event->getRouteMatch();
-    	$controller = explode( '\\' , $routeMatch->getParam('controller') );
-    	$action     = $routeMatch->getParam('action');
-				
-    	if( in_array( $controller[2], array('Album') ) ) {
-	    	if (! $authService->hasIdentity()) {
-	    		// if not log in, redirect to login page
-	    		//return $this->redirect()->toUrl('/login');
-	    		//- assemble redirect url
-	    		$url = $event->getRouter()->assemble(array('action' => 'login'), array('name' => 'login'));
-
-	    		$response = $event->getResponse();
-	    		$response->getHeaders()->addHeaderLine('Location', $url);//echo '<pre>';print_r($response); exit;
-	    		//$response->setStatusCode(302);
-	    		$response->sendHeaders();
-	    		$event->stopPropagation();
-	    		//header('Location:/login');
-	    		exit;
-	    	}
-    	}
-    }*/
 
     public function getConfig()
     {
