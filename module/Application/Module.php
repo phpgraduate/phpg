@@ -23,7 +23,7 @@ class Module
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
 		
-		$eventManager->attach('route', array($this, 'checkAcl'));
+		//$eventManager->attach('route', array($this, 'checkAcl'));
     }
 	
 	public function initAcl(MvcEvent $e) {
