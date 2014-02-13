@@ -1,3 +1,4 @@
+<?php print_R($this->username);  ?>
 <?php echo $this->doctype(); ?>
 
 <html lang="en">
@@ -41,11 +42,18 @@
                                     ->menu()
                                     //->setMinDepth()
                                     ->setUlClass('nav nav-pills'); ?>
+                     <div style="margin: 10px 0 0 0; float: right;">
+						<?php if( empty($username)) {?>
+						<a href="/signup">Sign Up</a> | <a href="/login">Log In</a>
+						<?php } else { echo 'Welcome ' . $this->username . ' | ' ?>
+							<a href="/logout">Log Out</a>
+						<?php } ?>
+					</div>
                 </div>
             </div>
         </div>
         <div class="container">
-			<?php 
+			<?php
 				echo $this->navigation('navigation')
                ->breadcrumbs()
                ->setMinDepth(0)
@@ -54,7 +62,7 @@
             <?php echo $this->content; ?>
             <hr>
             <footer>
-               
+
             </footer>
         </div> <!-- /container -->
         <?php echo $this->inlineScript() ?>

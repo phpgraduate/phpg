@@ -36,7 +36,7 @@ return array(
                     'route'    => '/login',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Auth\Controller',
-                        'controller'    => 'Login',
+                        'controller'    => 'user',
                         'action'        => 'login',
                     ),
                 ),
@@ -53,13 +53,46 @@ return array(
 					)
 				)
             ),
+        	'logout' => array(
+        			'type'    => 'Literal',
+        			'options' => array(
+        					'route'    => '/logout',
+        					'defaults' => array(
+        							'__NAMESPACE__' => 'Auth\Controller',
+        							'controller'    => 'user',
+        							'action'        => 'logout',
+        					),
+        			),
+        	),
+        	'signup' => array(
+        			'type'    => 'Segment',
+        			'options' => array(
+        					'route'    => '/signup[/][:returnto]',
+        					'defaults' => array(
+        							'__NAMESPACE__' => 'Auth\Controller',
+        							'controller'    => 'user',
+        							'action'        => 'signup',
+        					),
+        			),
+        	),
+        	'forgotpassword' => array(
+        			'type'    => 'Literal',
+        			'options' => array(
+        					'route'    => '/forgotpassword',
+        					'defaults' => array(
+        							'__NAMESPACE__' => 'Auth\Controller',
+        							'controller'    => 'user',
+        							'action'        => 'forgotpassword',
+        					),
+        			),
+        	),
         ),
     ),
     'service_manager' => array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Auth\Controller\Login' => 'Auth\Controller\LoginController',
+            'Auth\Controller\User' => 'Auth\Controller\UserController',
     		'Auth\Controller\Index' => 'Auth\Controller\IndexController',
         ),
     ),

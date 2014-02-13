@@ -16,11 +16,18 @@ use Zend\Mvc\Controller\AbstractActionController,
     Zend\View\Model\ViewModel,
     Auth\Model\User,
     Auth\Form\Login,
+    Auth\Form\Signup,
 	ZendOAuth\Google\OAuth\OAuth,
     Auth\Auth\Adapter\Twitter as AuthTwitter;
 
-class LoginController extends AbstractActionController
+class UserController extends AbstractActionController
 {
+
+	const ROUTE_FORGOTPASSWORD	= '/forgotpassword';
+	const ROUTE_LOGIN        	= '/login';
+	const ROUTE_SIGNUP			= '/signup';
+	const ROUTE_LANDING			= '/album';
+
 	protected $userTable;
 	protected $_config;
 
@@ -36,13 +43,72 @@ class LoginController extends AbstractActionController
             )
         );
     }
-	
+
+	  public function signupAction()
+    {
+    	$authService = $this->serviceLocator->get('auth_service');
+        if ($authService->hasIdentity()) {
+           	return $this->redirect()->toUrl(static::ROUTE_LANDING);
+        }
+
+        $form = new Signup;
+        $form->get('submit')->setValue('Sign Up');
+
+        $request = $this->getRequest();
+        $loginMsg = array();
+
+        if ($request->isPost()) {
+        	$user = new User();
+        	$form->setInputFilter($user->getInputFilter());
+        	$form->setData($request->getPost());
+
+
+        	if (!$form->isValid()) {
+        		return new ViewModel(array('title' => 'Sign Up',
+        				'form'  => $form
+        		));
+        	}
+
+        	$user->exchangeArray($form->getData());
+        	$this->getUserTable()->saveUser($user);
+
+        	// Redirect to list of albums
+        	return $this->redirect()->toUrl(static::ROUTE_LANDING);
+
+        }
+        return new ViewModel(array('title' => 'Sign Up',
+        		'form'  => $form
+        ));
+        //return array('form' => $form);
+
+		/*$form = new Signup;
+		$signupMsg = array();
+
+		if($this->getRequest()->isPost()) {
+			$form->setData($this->getRequest()->getPost());
+			if(!$form->isValid()){
+				return new ViewModel(array('title' => 'Sign Up',
+                                           'form'  => $form
+                                           ));
+			}
+			 $dbAdapter = $this->serviceLocator->get('Zend\Db\Adapter\Adapter');
+			 $signupData = $form->getData();
+
+		}*/
+
+        echo $returnUrl = $this->params()->fromRoute('returnto');
+		exit;
+        if (!empty($returnUrl)) {
+        	return $this->redirect()->toUrl($returnUrl);
+        }
+
+	}
     public function loginAction()
     {
             $authService = $this->serviceLocator->get('auth_service');
             if ($authService->hasIdentity()) {
                     // if not log in, redirect to login page
-                    return $this->redirect()->toUrl('/album');
+                    return $this->redirect()->toUrl(static::ROUTE_LOGIN);
             }
 
             $form = new Login;
@@ -68,18 +134,18 @@ class LoginController extends AbstractActionController
 
                     $result = $authService->authenticate();
                     if ($result->isValid()) {
-                // set id as identifier in session				
+                // set id as identifier in session
                 //$userId = $authAdapter->getResultRowObject('id')->id;
 				$username = ( $authAdapter->getResultRowObject('username')->username ) ? $authAdapter->getResultRowObject('username')->username : $authAdapter->getResultRowObject('twitter')->twitter;
-				
+
 				$sessionData = array(
 								'user_id' => $authAdapter->getResultRowObject('id')->id,
 								'user_name' => $username,
 								'is_admin' => $authAdapter->getResultRowObject('is_admin')->is_admin);
-								
+
                 $authService->getStorage()
                             ->write($sessionData);
-                            return $this->redirect()->toUrl('/album');
+                            return $this->redirect()->toUrl(static::ROUTE_LANDING);
                     } else {
                             $loginMsg = $result->getMessages();
                     }
@@ -96,7 +162,7 @@ class LoginController extends AbstractActionController
             $authService = $this->serviceLocator->get('auth_service');
             if (! $authService->hasIdentity()) {
                     // if not log in, redirect to login page
-                    return $this->redirect()->toUrl('/login');
+                    return $this->redirect()->toUrl(static::ROUTE_LOGIN);
             }
 
             $authService->clearIdentity();
@@ -105,7 +171,7 @@ class LoginController extends AbstractActionController
                                                                               'form'  => $form,
                                                                               'title' => 'Log out'
                                                                             ));
-            $viewModel->setTemplate('auth/login/login.phtml');
+            $viewModel->setTemplate('auth/user/login.phtml');
             return $viewModel;
     }
 
@@ -128,7 +194,7 @@ class LoginController extends AbstractActionController
         $googleAuth = new OAuth($this->_config);
         $googleAuth->getRequestToken();
     }
-	
+
     public function twitterCallbackAction()
     {
             $session  = new SessionContainer('twitter_oauth');
@@ -167,20 +233,20 @@ class LoginController extends AbstractActionController
                                                                                       'form'  => $form,
                                                                                       'title' => 'Twitter Sign In'
                                                                                     ));
-                    $viewModel->setTemplate('auth/login/login.phtml');
+                    $viewModel->setTemplate('auth/user/login.phtml');
                     return $viewModel;
             }
     }
-	
+
 	public function googleCallbackAction() {
-	
+
 	 $requestToken = (String) $this->params()->fromQuery('code', 0);
         $googleAuth = new OAuth($this->_config, array("sslverifypeer" => false));
         $response = $googleAuth->getAccessToken($requestToken);
-		
+
 		/*$session  = new SessionContainer('twitter_oauth');
         $consumer = $this->serviceLocator->get('twitter_oauth');
-		
+
         $requestToken = (String) $this->params()->fromQuery('code', 0);
         //$googleAuth = new OAuth($this->_config, array("sslverifypeer" => false));
 		try {
@@ -218,8 +284,8 @@ class LoginController extends AbstractActionController
 																				));
 				$viewModel->setTemplate('auth/login/login.phtml');
 				return $viewModel;
-		}*/	
-		
+		}*/
+
         // echo $response->getAccessToken();
         // echo $response->getRefreshToken();
     }

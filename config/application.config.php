@@ -8,7 +8,7 @@ return array(
 		//'ZfcUser',
 		//'ZfcAdmin',
 		'Auth',
-		//'MarAcl',
+		'AppAcl',
     ),
 
     // These are various options for the listeners attached to the ModuleManager

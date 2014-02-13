@@ -17,22 +17,21 @@ use Zend\Authentication\AuthenticationService,
 class Module
 {
     public function onBootstrap(MvcEvent $e)
-    {	
+    {		
 		$e->getApplication()->getServiceManager()->get('translator');
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-        
-		//$eventManager->attach('route', array($this, 'checkAcl'));
 		
-		//$e->getApplication()->getEventManager()->attach('route', array($this, 'checkAcl'));		
+		$eventManager->attach('route', array($this, 'checkAcl'));		
+		
         /*$eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
-        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'authPreDispatch'), 1);*/
+        $eventManager->attach(MvcEvent::EVENT_DISPATCH, array($this, 'authPreDispatch'), 1);*/	
     }
-
-	/*public function initAcl(MvcEvent $e) {
+	
+	public function initAcl(MvcEvent $e) {
  
 		$acl = new \Zend\Permissions\Acl\Acl();
 		$roles = include __DIR__ . '/config/acl.config.php';
@@ -74,7 +73,7 @@ class Module
 		if ($authService->hasIdentity()) { 			
 			$userRole = ($authService->getIdentity()['is_admin']) ? 'admin' : 'member';
 		}
-		
+		//print_r($userRole); exit;
 		if(!$e -> getViewModel() -> acl ->hasResource($route)){
 			throw new \Exception('Resource ' . $route . ' not defined');
 		}
@@ -93,7 +92,7 @@ class Module
 			$response->sendHeaders();
 			$e->stopPropagation();
 		}
-	}*/
+	}
 	
     /**
      * Authenticate user or redirect to log in

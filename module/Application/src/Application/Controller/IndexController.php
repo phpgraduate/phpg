@@ -11,11 +11,25 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\ZfcMenu\View\Helper\Navigation\Menu;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
-    {
-        return new ViewModel();
+    {		
+		$authService = $this->serviceLocator->get('auth_service');
+        if ($authService->hasIdentity()) {
+			$username = $authService->getIdentity()['user_name'];
+		}	
+		
+		$this->layout()->setVariables(array(
+				'username' => $username,			
+			)
+		);	
+		
+		//$this->layout()->setVariable('username', 'pavang');
+		
+        $viewModel = new ViewModel();		
+		return $viewModel;
     }
 }
