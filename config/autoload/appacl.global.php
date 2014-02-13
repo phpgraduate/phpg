@@ -10,7 +10,7 @@ return array(
 
 		// String
 		// Default role to use when there is no identity on 'authorize_provider'
-		// By default "guest"
+		// By default "anonymous"
 		'default_role' => 'guest',
 
 		// Holds information about Roles, Resources and Rules
@@ -23,15 +23,15 @@ return array(
 			'roles'		=> array(
 				array(
 					'name' 		=> 'guest',					
-					//'parents'	=>	array('admin', 'member'),
-				),
-				array(
-					'name' 		=> 'admin',					
-					//'parents'	=>	array('admin', 'member'),
+					// 'parents'	=>	array('parent_1', 'parent_2')
 				),
 				array(
 					'name' 		=> 'member',					
-					//'parents'	=>	array('admin', 'member'),
+					// 'parents'	=>	array('parent_1', 'parent_2')
+				),
+				array(
+					'name' 		=> 'admin',					
+					// 'parents'	=>	array('parent_1', 'parent_2')
 				),
 			),
 
@@ -72,14 +72,14 @@ return array(
 						'role'			=> 'guest',
 						'controller'	=> 'application\controller\index',
 						'actions'		=> array('index'),
-						'privilege'		=> 'GET',
+						'privilege'		=> 'read',
 						'active' 		=> 1,
 					),
 					array(
 						'role'			=> 'guest',
 						'controller'	=> 'auth\controller\user',
-						'actions'		=> array('signup','login',),
-						'privilege'		=> array('POST','GET'),
+						'actions'		=> array('login'),
+						'privilege'		=> array('GET','POST'),
 						'active' 		=> 1,
 					),
 					array(
@@ -107,9 +107,16 @@ return array(
 						'role'			=> 'admin',
 						'controller'	=> 'application\controller\index',
 						'actions'		=> array('index'),
-						'privilege'		=> 'GET',
+						'privilege'		=> 'read',
 						'active' 		=> 1,
 					),
+					array(
+						'role'			=> 'admin',
+						'controller'	=> 'auth\controller\user',
+						'actions'		=> array('logout'),
+						'privilege'		=> array('GET','POST'),
+						'active' 		=> 1,
+					),					
 					array(
 						'role'			=> 'admin',
 						'controller'	=> 'album\controller\album',
@@ -117,23 +124,8 @@ return array(
 						'privilege'		=> array('GET','POST'),
 						'active' 		=> 1,
 					),
-					array(
-						'role'			=> 'admin',
-						'controller'	=> 'auth\controller\login',
-						'actions'		=> array('logout'),
-						//'privilege'		=> 'POST',
-						'active' 		=> 1,
-					),
 				),
-				'deny' => array(
-					array(
-						'role'			=> 'anonymous',
-						'controller'	=> 'album\controller\album',
-						'actions'		=> array('index',),
-						//'privilege'		=> 'POST',
-						'active' 		=> 1,
-					),
-				),
+				'deny' => array(),
 			),
 		),
 	),
